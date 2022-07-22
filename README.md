@@ -16,7 +16,7 @@
 - 在选定节点中寻找 &emsp;需要先用鼠标选择要搜索的节点然后再打开此功能进行查找 &emsp;注：目前没有api可以做到在Edge中插件失去焦点保持打开的方法，所以可能使用起来有点难受，后期如果有相关的api或者方法我也会加入其中。
 
 # 感谢
-本插件使用了[mark.js](https://github.com/julmot/mark.js),感谢[Julian Kühnel](https://github.com/julmot)提供的插件
+本插件使用了mark.js,感谢[Julian Kühnel](https://github.com/julmot)提供的[mark.js](https://github.com/julmot/mark.js)
 
 # 问题
 如有任何的bug或疑问请联系1442772970@qq.com
