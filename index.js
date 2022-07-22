@@ -66,7 +66,7 @@ let options = {
 
 
 // 搜索函数 注入的脚本
-function searchScript(value, options, regular, assign) {
+function searchScript(inputValue, options, regular, assign) {
     // 初始化mark插件
     let context;
     let instance;
@@ -111,12 +111,12 @@ function searchScript(value, options, regular, assign) {
         // 未开启
 
         // 搜索内容
-        instance.mark(value, options);
+        instance.mark(inputValue, options);
     } else {
         // 开启
 
         // 利用正则表达式搜索内容
-        instance.markRegExp(new RegExp(value), options);
+        instance.markRegExp(new RegExp(inputValue), options);
     }
 
     // 返回搜索到的个数
