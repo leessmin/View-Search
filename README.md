@@ -22,6 +22,6 @@
 如有任何的bug或疑问请联系1442772970@qq.com
 
 # License
-[MPL](https://opensource.org/licenses/MPL-2.0)
+[MPL-2.0](https://opensource.org/licenses/MPL-2.0)
 
 Copyright (c) 2022-present, Leessmin(李思敏)
