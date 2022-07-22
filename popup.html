@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>search</title>
+    <!-- 引入图标库 -->
+    <link rel="stylesheet" href="./font_icon/iconfont.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 10px;
+            width: 250px;
+        }
+
+
+        /* 亮主题 */
+        @media (prefers-color-scheme: light) {
+            body {
+                background: #fff;
+                color: #333;
+            }
+
+            input:focus {
+                outline: 1px solid #d4d4d4;
+            }
+
+            input {
+                color: #333;
+                background-color: #f7f7f7;
+            }
+
+            span {
+                color: #333;
+            }
+
+            .flex-box span:hover {
+                background-color: rgba(175, 175, 175, 0.5);
+            }
+
+            .btn-active {
+                background-color: rgba(175, 175, 175, 0.5);
+            }
+        }
+
+
+        /* 暗黑主题 */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #3b3b3b;
+            }
+
+            input:focus {
+                outline: 1px solid #4e4e4e;
+            }
+
+            input {
+                color: #f0f0f1;
+                background-color: #21252b;
+            }
+
+            span {
+                color: #f0f0f1;
+            }
+
+            .flex-box span:hover {
+                background-color: rgba(155, 155, 155, 0.5);
+            }
+
+            .btn-active {
+                background-color: rgba(155, 155, 155, 0.5);
+            }
+        }
+
+
+
+
+
+
+
+        input {
+            width: 100%;
+            height: 20px;
+            border: 0;
+            margin-bottom: 10px;
+            border-radius: 2px;
+        }
+
+        span {
+            cursor: pointer;
+            font-weight: 800;
+            margin-right: 10px;
+            padding: 2px;
+        }
+
+
+
+        .flex-box span {
+            border-radius: 5px;
+            user-select: none;
+        }
+
+
+
+        .flex-box {
+            display: flex;
+            justify-content: space-between;
+            user-select: none;
+        }
+
+        .count-box #counter-span-box div {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .is-display {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="text" placeholder="请输入要查找的内容">
+    <div class="count-box">
+        <span class="not-found is-display">未发现内容</span>
+        <div id="counter-span-box" class="is-display">
+            <div>
+                <span>第<span class="The-span">0</span>项</span>
+                <span>共<span class="counter-span">0</span>项</span>
+            </div>
+        </div>
+
+    </div>
+    <div class="flex-box">
+        <div>
+            <span id="differentiate" class="btn" title="区分大小写">Aa</span>
+            <span id="accuracy" class="btn" title="全字匹配">A-z</span>
+            <span id="regular" class="btn" title="使用正则表达式">/A*z/</span>
+        </div>
+        <div>
+            <span id="up-btn" title="上一个匹配项"><i class="iconfont icon-Chevron-up"></i></span>
+            <span id="down-btn" title="下一个匹配项"><i class="iconfont icon-Chevron-down"></i></span>
+            <span id="assign-content" class="btn" title="在选定节点中查找"><i class="iconfont icon-Check"></i></span>
+            <span id="clear" class="btn" title="关闭"><i class="iconfont icon-CloseDefault"></i></span>
+        </div>
+    </div>
+
+
+    <script src="index.js"></script>
+</body>
+
+</html>
