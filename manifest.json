@@ -1,7 +1,7 @@
 {
     "name": "view search",
     "description": "Precise search keywords",
-    "version": "0.1",
+    "version": "0.1.1",
     "manifest_version": 3,
     "action": {
         "default_popup": "popup.html",
