@@ -139,8 +139,20 @@ function upAndDownScript(index) {
     markBox[index].style.color = '#fff';
 
 
-    // 跟随
-    window.scrollTo(0, markBox[index].offsetTop - 200);
+
+    // 获取元素相对body的位置 函数     解决：某些元素的位置为0的bug
+    function getOffsetTopByBody(el) {
+        let offsetTop = 0;
+        while (el && el.tagName !== 'BODY') {
+            offsetTop += el.offsetTop;
+            el = el.offsetParent;
+        }
+        return offsetTop;
+    }
+
+
+    // 跟随元素的位置
+    window.scrollTo(0, getOffsetTopByBody(markBox[index]) - 400);
 }
 
 
