@@ -219,7 +219,7 @@ function searchFun(inputValue, options, regular, assign) {
 }
 
 
-window.addEventListener('load', () => {
+window.addEventListener('DOMContentLoaded', () => {
 
     // 打开插件时注入mark插件和样式
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -236,6 +236,11 @@ window.addEventListener('load', () => {
             files: ["./inject/inject.css"]
         });
     })
+
+
+
+    // 打开插件后input输入框自动聚焦
+    document.querySelector('input').focus();
 
 
 
@@ -286,8 +291,8 @@ window.addEventListener('load', () => {
 
 
 
-    // 监听上一个匹配项按钮
-    document.querySelector('#up-btn').addEventListener("click", function () {
+    // 选择上匹配项 的回调事件
+    function upEvent() {
         // console.log(index);
         // 判断下标  禁止越界
         if (index <= 1) {
@@ -298,10 +303,10 @@ window.addEventListener('load', () => {
 
         // 定向内容
         upAndDown(index);
-    })
+    }
 
-    // 监听下一个匹配项按钮
-    document.querySelector('#down-btn').addEventListener("click", function () {
+    // 选择下匹配项 的回调事件
+    function downEvent() {
         // console.log(index);
         // 判断下标  禁止越界
         if (index >= count) {
@@ -312,6 +317,28 @@ window.addEventListener('load', () => {
 
         // 定向内容
         upAndDown(index);
+    }
+
+    // 监听上一个匹配项按钮
+    document.querySelector('#up-btn').addEventListener("click", upEvent)
+
+    // 监听下一个匹配项按钮
+    document.querySelector('#down-btn').addEventListener("click", downEvent)
+
+
+    // 监听键盘按键 达到快捷键效果
+    window.addEventListener('keydown', function (event) {
+        // 上按键
+        if (event.code == 'ArrowUp') {
+            // 调用上监听按钮回调事件
+            upEvent();
+        }
+
+        // 下按键
+        if (event.code == 'ArrowDown') {
+            // 调用下监听按钮回调事件
+            downEvent();
+        }
     })
 
 
