@@ -432,6 +432,27 @@ window.addEventListener('DOMContentLoaded', () => {
 	})
 
 
+
+
+	// 监听历史列表按钮
+	document.querySelector("#historyList .history-list-btn").addEventListener('click', async function () {
+		console.log(this);
+
+		// 切换按钮的图标状态
+		this.classList.toggle("history-list-btn-active")
+
+		// 判断是否存在 history-list-btn-active 类名
+		// 如果存在 类名 说明是需要展示历史数据
+		if (this.classList.contains("history-list-btn-active")) {
+			// 查询 历史列表记录
+			let result = await CreateSearchStore().getItem()
+			CreateHistoryListDom(result)
+		} else {
+			// 不存在 类名
+			// 清空列表
+			CreateHistoryListDom(null)
+		}
+	})
 })
 
 
@@ -506,7 +527,42 @@ function CreateSearchStore() {
 
 }
 
-setTimeout(async () => {
-	let result = await CreateSearchStore().getItem()
-	console.log(result);
-}, 100);
+
+
+// 创建历史列表dom
+function CreateHistoryListDom(arr) {
+	// 获取历史列表 ul
+	const historyUl = document.querySelector("#historyUl")
+
+	// 清空所有类名
+	historyUl.className = ""
+
+	// 清空子元素
+	historyUl.innerHTML = ""
+
+	// 判断历史记录是否为空
+	if (arr == null) {
+		// 为空 直接退出
+		return
+	}
+
+
+	arr.forEach(v => {
+		// 创建 li>div
+		const li = CreateHistoryLi(v)
+		historyUl.appendChild(li)
+	});
+
+	historyUl.classList.add("history-ul-show")
+}
+
+// 创建历史列表的li
+function CreateHistoryLi(v) {
+	// 创建 li>div
+	const li = document.createElement("li")
+	const div = document.createElement("div")
+	div.innerHTML = v
+	li.appendChild(div)
+
+	return li
+}
