@@ -17,6 +17,8 @@ let setConfig = {
 }
 // 定时器
 let timer;
+// 当前页面的信息
+let currentTab = null
 
 // 配置搜索配置项
 let options = {
@@ -291,7 +293,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
 		// TODO:存储数据
 		timerStore = setTimeout(() => {
-			console.log("存储数据", inputValue);
+			// 储存数据
+			CreateSearchStore().setItem(inputValue)
+			// console.log("存储数据", inputValue);
 		}, 5000)
 	})
 
@@ -446,6 +450,63 @@ async function getCurrentTab() {
 	let queryOptions = { active: true, lastFocusedWindow: true };
 	// `tab` will either be a `tabs.Tab` instance or `undefined`.
 	let [tab] = await chrome.tabs.query(queryOptions);
-	console.log(tab);
-	return tab;
+	currentTab = tab
 }
+
+// 加载插件时 就 获取 标签页的信息
+getCurrentTab()
+
+
+
+// 搜索内容仓库
+class SearchStore {
+	// 设置 仓库 key value
+	async setItem(value) {
+		// 获取仓库的数据
+		const result = await this.getItem()
+
+		// 即将储存的数据
+		let data = []
+		// 判断数据是否为空
+		if (result != null) {
+			// 数据不为空
+			data = result
+		}
+
+		// 即将储存的数据是否大于10  如果大于10 第一个元素出栈
+		if (data.length >= 10) {
+			// 第一个元素出栈
+			data.shift()
+		}
+
+		// 向数组追加数据
+		data.push(value)
+
+		// 储存数据
+		localforage.setItem(currentTab.url, data)
+	}
+
+	// 获取仓库数据
+	async getItem() {
+		const result = await localforage.getItem(currentTab.url)
+		return result
+	}
+
+}
+
+// 实例化搜索内容仓库
+let searchValueStore = null
+// 初始化搜索内容仓库  单例模式
+function CreateSearchStore() {
+	if (searchValueStore == null) {
+		searchValueStore = new SearchStore()
+	}
+
+	return searchValueStore
+
+}
+
+setTimeout(async () => {
+	let result = await CreateSearchStore().getItem()
+	console.log(result);
+}, 100);
