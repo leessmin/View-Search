@@ -17,12 +17,32 @@
 			width: 250px;
 		}
 
+		:root {
+			/* 亮主题 */
+
+			/* 背景颜色 */
+			--light-bgc: #fff;
+			/* 字体颜色 */
+			--light-fc: #333;
+			/* 活动状态下的背景颜色 */
+			--light-bgc-active: rgba(175, 175, 175, 0.5);
+
+			/* 暗主题 */
+
+			/* 背景颜色 */
+			--dark-bgc: #3b3b3b;
+			/* 字体颜色 */
+			--dark-fc: #f0f0f1;
+			/* 活动状态下的背景颜色 */
+			--dark-bgc-active: rgba(155, 155, 155, 0.5);
+		}
+
 
 		/* 亮主题 */
 		@media (prefers-color-scheme: light) {
 			body {
-				background: #fff;
-				color: #333;
+				background: var(--light-bgc);
+				color: var(--light-fc);
 			}
 
 			input:focus {
@@ -30,40 +50,40 @@
 			}
 
 			input {
-				color: #333;
+				color: var(--light-fc);
 				background-color: #f7f7f7;
 			}
 
 			span {
-				color: #333;
+				color: var(--light-fc);
 			}
 
 			.flex-box span:hover {
-				background-color: rgba(175, 175, 175, 0.5);
+				background-color: var(--light-bgc-active);
 			}
 
 			.btn-active {
-				background-color: rgba(175, 175, 175, 0.5);
+				background-color: var(--light-bgc-active);
 			}
 
 			.history-list-btn {
-				color: #333;
+				color: var(--light-fc);
 			}
 
 			.history-list-btn:hover {
-				background-color: rgba(175, 175, 175, 0.5);
+				background-color: var(--light-bgc-active);
 			}
 
 			.history-list ul li {
-				color: #333;
+				color: var(--light-fc);
 			}
 
 			.history-list ul li:hover {
-				background-color: rgba(175, 175, 175, 0.5);
+				background-color: var(--light-bgc-active);
 			}
 
 			#historyUl {
-				border-top: 2px solid rgba(175, 175, 175, 0.5);
+				border-top: 2px solid var(--light-bgc-active);
 			}
 		}
 
@@ -71,7 +91,7 @@
 		/* 暗黑主题 */
 		@media (prefers-color-scheme: dark) {
 			body {
-				background-color: #3b3b3b;
+				background-color: var(--dark-bgc);
 			}
 
 			input:focus {
@@ -79,40 +99,40 @@
 			}
 
 			input {
-				color: #f0f0f1;
+				color: var(--dark-fc);
 				background-color: #21252b;
 			}
 
 			span {
-				color: #f0f0f1;
+				color: var(--dark-fc);
 			}
 
 			.flex-box span:hover {
-				background-color: rgba(155, 155, 155, 0.5);
+				background-color: var(--dark-bgc-active);
 			}
 
 			.btn-active {
-				background-color: rgba(155, 155, 155, 0.5);
+				background-color: var(--dark-bgc-active);
 			}
 
 			.history-list-btn {
-				color: #f0f0f1;
+				color: var(--dark-fc);
 			}
 
 			.history-list-btn:hover {
-				background-color: rgba(155, 155, 155, 0.5);
+				background-color: var(--dark-bgc-active);
 			}
 
 			.history-list ul li {
-				color: #f0f0f1;
+				color: var(--dark-fc);
 			}
 
 			.history-list ul li:hover {
-				background-color: rgba(155, 155, 155, 0.5);
+				background-color: var(--dark-bgc-active);
 			}
 
 			#historyUl {
-				border-top: 2px solid rgba(155, 155, 155, 0.5);
+				border-top: 2px solid var(--dark-bgc-active);
 			}
 		}
 
@@ -206,7 +226,7 @@
 			animation: historyULShow 0.5s linear forwards;
 		}
 
-		.history-ul-hide{
+		.history-ul-hide {
 			animation: historyULHide 0.5s linear forwards;
 		}
 
