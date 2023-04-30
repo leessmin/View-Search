@@ -206,7 +206,11 @@
 			animation: historyULShow 0.5s linear forwards;
 		}
 
-		/* 历史列表的ui展示动效 */
+		.history-ul-hide{
+			animation: historyULHide 0.5s linear forwards;
+		}
+
+		/* 历史列表的 ul 展示动效 */
 		@keyframes historyULShow {
 			0% {
 				/* transform: scaleY(0); */
@@ -218,6 +222,21 @@
 				/* transform: scaleY(1); */
 				max-height: 100px;
 				opacity: 1;
+			}
+		}
+
+		/* 历史列表 ul 隐藏动效 */
+		@keyframes historyULHide {
+			0% {
+				/* transform: scaleY(0); */
+				max-height: 100px;
+				opacity: 1;
+			}
+
+			100% {
+				/* transform: scaleY(1); */
+				max-height: 0;
+				height: 0px;
 			}
 		}
 	</style>

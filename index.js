@@ -537,13 +537,23 @@ function CreateHistoryListDom(arr) {
 	// 清空所有类名
 	historyUl.className = ""
 
-	// 清空子元素
-	historyUl.innerHTML = ""
-
 	// 判断历史记录是否为空
 	if (arr == null) {
 		// 为空 直接退出
+
+		// 隐藏 动画效果
+		historyUl.classList.add("history-ul-hide")
+
+		// 动画执行完毕 清空内容
+		setTimeout(() => {
+			// 清空子元素
+			historyUl.innerHTML = ""
+		}, 500);
+
 		return
+	} else {
+		// 清空子元素
+		historyUl.innerHTML = ""
 	}
 
 
@@ -553,6 +563,7 @@ function CreateHistoryListDom(arr) {
 		historyUl.appendChild(li)
 	});
 
+	// 显示 动画效果
 	historyUl.classList.add("history-ul-show")
 }
 
