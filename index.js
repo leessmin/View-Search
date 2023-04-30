@@ -283,6 +283,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	// 监听input的输入内容
 	document.querySelector('input').addEventListener('input', function () {
 		inputValue = this.value;
+		console.log(inputValue);
 		// 清除定时器，节流
 		clearTimeout(timer)
 		clearTimeout(timerStore)
@@ -291,12 +292,18 @@ window.addEventListener('DOMContentLoaded', () => {
 			searchFun(inputValue, options, setConfig.regular, setConfig.assignContent);
 		}, 500);
 
-		// TODO:存储数据
+		// 延迟储存  节流
 		timerStore = setTimeout(() => {
+
+			// 判断是否存在内容  如果内容为空 不储存
+			if (inputValue.length == 0) {
+				return
+			}
+
 			// 储存数据
 			CreateSearchStore().setItem(inputValue)
 			// console.log("存储数据", inputValue);
-		}, 5000)
+		}, 3000)
 	})
 
 
@@ -436,7 +443,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	// 监听历史列表按钮
 	document.querySelector("#historyList .history-list-btn").addEventListener('click', async function () {
-		console.log(this);
 
 		// 切换按钮的图标状态
 		this.classList.toggle("history-list-btn-active")
@@ -574,6 +580,17 @@ function CreateHistoryLi(v) {
 	const div = document.createElement("div")
 	div.innerHTML = v
 	li.appendChild(div)
+
+	// 给历史记录的li添加点击事件
+	li.onclick = function () {
+		// 获取被点击的历史记录 文本
+		const value = this.children[0].innerHTML
+		// 给input输入框输入历史记录
+		document.querySelector('input').value = value
+
+		// 调用搜索内容函数
+		searchFun(value, options, setConfig.regular, setConfig.assignContent);
+	}
 
 	return li
 }
