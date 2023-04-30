@@ -502,12 +502,12 @@ class SearchStore {
 
 		// 即将储存的数据是否大于10  如果大于10 第一个元素出栈
 		if (data.length >= 10) {
-			// 第一个元素出栈
-			data.shift()
+			// 第最后一个元素出栈
+			data.pop()
 		}
 
 		// 向数组追加数据
-		data.push(value)
+		data.unshift(value)
 
 		// 储存数据
 		localforage.setItem(currentTab.url, data)
@@ -587,6 +587,9 @@ function CreateHistoryLi(v) {
 		const value = this.children[0].innerHTML
 		// 给input输入框输入历史记录
 		document.querySelector('input').value = value
+
+		// input框聚焦
+		document.querySelector('input').focus()
 
 		// 调用搜索内容函数
 		searchFun(value, options, setConfig.regular, setConfig.assignContent);
