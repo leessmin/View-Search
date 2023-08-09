@@ -478,11 +478,25 @@ async function getCurrentTab() {
 	// `tab` will either be a `tabs.Tab` instance or `undefined`.
 	let [tab] = await chrome.tabs.query(queryOptions);
 	currentTab = tab
+	initSearchValue()
 }
 
 // 加载插件时 就 获取 标签页的信息
 getCurrentTab()
 
+
+// 初始化标签 获取历史内容
+async function initSearchValue() {
+	const result = await CreateSearchStore().getItem()
+
+	// 判断历史内容是否存在,不存在则直接返回
+	if (result.length === 0) {
+		return
+	}
+
+	// 存在,将最新的内容存入搜索框
+	document.querySelector("input").value = result[0];
+}
 
 
 // 搜索内容仓库
@@ -570,7 +584,8 @@ function CreateHistoryListDom(arr) {
 	});
 
 	// 显示 动画效果
-	historyUl.classList.add("history-ul-show")
+	// historyUl.classList.add("history-ul-show")
+	showHistoryList(historyUl)
 }
 
 // 创建历史列表的li
@@ -596,4 +611,14 @@ function CreateHistoryLi(v) {
 	}
 
 	return li
+}
+
+// 显示历史列表
+function showHistoryList(dom) {
+	// 将高度自动响应元素
+	dom.style.height = "auto"
+	// 设置动画执行的高度
+	document.documentElement.style.setProperty('--history-list-height', `${dom.clientHeight}px`)
+	dom.style.height = `${dom.clientHeight}px`
+	dom.classList.add("history-ul-show")
 }

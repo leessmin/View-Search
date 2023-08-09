@@ -11,6 +11,11 @@
 	<!-- 引入图标库 -->
 	<link rel="stylesheet" href="./font_icon/iconfont.css">
 	<style>
+		:root {
+			/* 动态的历史列表的高度 */
+			--history-list-height: 100px;
+		}
+
 		body {
 			margin: 0;
 			padding: 10px;
@@ -233,29 +238,25 @@
 		/* 历史列表的 ul 展示动效 */
 		@keyframes historyULShow {
 			0% {
-				/* transform: scaleY(0); */
-				max-height: 0px;
 				height: 0px;
+				opacity: 0;
 			}
 
 			100% {
-				/* transform: scaleY(1); */
-				max-height: 1000px;
 				opacity: 1;
+				height: var(--history-list-height);
 			}
 		}
 
 		/* 历史列表 ul 隐藏动效 */
 		@keyframes historyULHide {
 			0% {
-				/* transform: scaleY(0); */
-				max-height: 1000px;
 				opacity: 1;
+				height: var(--history-list-height);
 			}
 
 			100% {
-				/* transform: scaleY(1); */
-				max-height: 0;
+				opacity: 0;
 				height: 0px;
 			}
 		}
