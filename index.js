@@ -15,6 +15,35 @@ let setConfig = {
 	// 是否开启选定内容中查找
 	assignContent: false,
 }
+// 各配置项 处理 函数
+let btnHandle = {
+	// 区分大小写按钮
+	differentiate() {
+		setConfig.differentiate = (!setConfig.differentiate);
+		options.caseSensitive = setConfig.differentiate;
+		searchFun(inputValue, options, setConfig.regular, setConfig.assignContent);
+	},
+	// 全字匹配
+	accuracy() {
+		setConfig.accuracy = (!setConfig.accuracy);
+		options.accuracy = setConfig.accuracy ? 'exactly' : 'partially'
+		searchFun(inputValue, options, setConfig.regular, setConfig.assignContent);
+	},
+	// 正则表达式
+	regular() {
+		// 开启或关闭正则表达式
+		setConfig.regular = (!setConfig.regular);
+		// 调用搜索内容函数
+		searchFun(inputValue, options, setConfig.regular, setConfig.assignContent);
+	},
+	// 在选定节点中查找
+	assignContent() {
+		// 开启或关闭选定节点中查找
+		setConfig.assignContent = (!setConfig.assignContent);
+		// 调用搜索内容函数
+		searchFun(inputValue, options, setConfig.regular, setConfig.assignContent);
+	}
+}
 // 定时器
 let timer;
 // 当前页面的信息
@@ -261,11 +290,13 @@ window.addEventListener('DOMContentLoaded', () => {
 			// 依次绑定点击事件
 			btn[i].addEventListener('click', function () {
 				// 类名长度大于3 说明已经被点击 再次点击就取消点击
-				if (this.className.length > 3) {
+				if (this.classList.contains('btn-active')) {
 					this.className = 'btn';
 				} else {
 					this.className = `${this.className} btn-active`;
 				}
+
+				CreateSearchStore().setBtnStatus()
 			})
 		}
 	}
@@ -283,7 +314,6 @@ window.addEventListener('DOMContentLoaded', () => {
 	// 监听input的输入内容
 	document.querySelector('input').addEventListener('input', function () {
 		inputValue = this.value;
-		console.log(inputValue);
 		// 清除定时器，节流
 		clearTimeout(timer)
 		clearTimeout(timerStore)
@@ -365,70 +395,22 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 	// 监听区分大小写按钮
-	document.querySelector('#differentiate').addEventListener('click', function () {
-		// 判断是否开启大小写
-		if (!setConfig.differentiate) {
-			// 开启状态
-
-			// 开启大小写功能
-			options.caseSensitive = true;
-			// 调用搜索内容函数
-			searchFun(inputValue, options, setConfig.regular, setConfig.assignContent);
-		} else {
-			// 关闭状态
-
-			// 关闭大小写功能
-			options.caseSensitive = false;
-			// 调用搜索内容函数
-			searchFun(inputValue, options, setConfig.regular, setConfig.assignContent);
-		}
-
-		setConfig.differentiate = (!setConfig.differentiate);
-	})
+	document.querySelector('#differentiate').addEventListener('click', btnHandle.differentiate)
 
 
 
 	// 监听全字匹配
-	document.querySelector('#accuracy').addEventListener('click', function () {
-		// 判断是否开启全字匹配
-		if (!setConfig.accuracy) {
-			// 开启状态
-
-			// 开启全字匹配功能
-			options.accuracy = 'exactly';
-			// 调用搜索内容函数
-			searchFun(inputValue, options, setConfig.regular, setConfig.assignContent);
-		} else {
-			// 关闭状态
-
-			// 关闭全字匹配功能
-			options.accuracy = 'partially';
-			// 调用搜索内容函数
-			searchFun(inputValue, options, setConfig.regular, setConfig.assignContent);
-		}
-
-		setConfig.accuracy = (!setConfig.accuracy);
-	})
+	document.querySelector('#accuracy').addEventListener('click', btnHandle.accuracy)
 
 
 
 	// 监听使用正则表达式
-	document.querySelector('#regular').addEventListener('click', function () {
-		// 开启或关闭正则表达式
-		setConfig.regular = (!setConfig.regular);
-		// 调用搜索内容函数
-		searchFun(inputValue, options, setConfig.regular, setConfig.assignContent);
-	})
+	document.querySelector('#regular').addEventListener('click', btnHandle.regular)
 
 
 
 	// 监听使用在选定节点中查找
-	document.querySelector('#assign-content').addEventListener('click', function () {
-		// 开启或关闭选定节点中查找
-		setConfig.assignContent = (!setConfig.assignContent);
-		// 调用搜索内容函数
-		searchFun(inputValue, options, setConfig.regular, setConfig.assignContent);
-	})
+	document.querySelector('#assignContent').addEventListener('click', btnHandle.assignContent)
 
 
 
@@ -496,6 +478,13 @@ async function initSearchValue() {
 
 	// 存在,将最新的内容存入搜索框
 	document.querySelector("input").value = result[0];
+	inputValue = result[0]
+
+	// 获取按钮的状态
+	CreateSearchStore().getBtnStatus()
+
+	// 调用搜索内容函数
+	searchFun(document.querySelector("input").value, options, setConfig.regular, setConfig.assignContent);
 }
 
 
@@ -525,6 +514,35 @@ class SearchStore {
 
 		// 储存数据
 		localforage.setItem(currentTab.url, data)
+		// 储存按钮状态
+		this.setBtnStatus()
+	}
+
+	// 储存按钮状态 如：是否开启区分大小写等功能
+	setBtnStatus() {
+		// 拿到被点击的按钮
+		const btns = document.querySelectorAll('.btn-active')
+		// 储存按钮被点击的按钮 id
+		const ids = []
+		btns.forEach(v => {
+			// 判断是否存在这个配置
+			if (btnHandle.hasOwnProperty(v.getAttribute('id'))) {
+				// 存在
+				ids.push(v.getAttribute('id'))
+			}
+		})
+		localforage.setItem(`${currentTab.url}-btn`, ids)
+	}
+
+	// 获取按钮的状态
+	async getBtnStatus() {
+		const result = await localforage.getItem(`${currentTab.url}-btn`)
+		// 映射按钮状态
+		result.forEach(v => {
+			document.querySelector(`#${v}`).classList.add('btn-active')
+			// 更新配置 并调用配置
+			btnHandle[v]()
+		})
 	}
 
 	// 获取仓库数据
